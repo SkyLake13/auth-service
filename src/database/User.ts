@@ -5,9 +5,10 @@ interface IUser extends Document {
     email: string;
     userName: string;
     password: string;
+    verified: boolean;
 }
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUser>({
     name: {
         type: String,
         required: true
@@ -23,6 +24,11 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    verified: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 
