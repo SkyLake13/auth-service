@@ -1,10 +1,10 @@
 import express from 'express';
 import { Signup } from './models';
-import User from '../database/user.schema';
+import { User } from '../database/User';
 
 const app = express();
 
-app.post('/', async (req, res) => {
+app.post('/', (req, res) => {
     const user = req.body as Signup;
 
     const newUser = new User({
@@ -14,8 +14,8 @@ app.post('/', async (req, res) => {
         password: user.password
     });
 
-    await newUser.save();
-    res.status(201).send(newUser);
+    newUser.save().then(() => res.sendStatus(201))
+    .catch((_) => res.status(500).send(_));
 });
 
 export { app as signup };

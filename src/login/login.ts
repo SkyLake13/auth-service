@@ -1,17 +1,18 @@
 import express from 'express';
 import { Login } from './models';
-import User from '../database/user.schema';
+import { IUser, User } from '../database/User';
 
 const app = express();
 
-app.post('/', async (req, res) => {
-    const user = req.body as Login;
+app.post('/', (req, res) => {
+    const _user = req.body as Login;
 
-    const internalUser = await User.findOne({ userName: user.userName }) as any;
-    if (internalUser && internalUser.password === user.password) {
-        res.status(200).send('token');
-    }
-    res.status(403).send('user not found');
+    User.findOne({ userName: _user.userName })
+    .then((user: IUser | null) => {
+        user && user.password === _user.password ? res.status(200).send('token') 
+                                    : res.status(403).send('user not found');
+    })
+    .catch((_) => res.status(500).send(_));
 });
 
 export { app as login };
