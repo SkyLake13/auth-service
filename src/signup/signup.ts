@@ -1,6 +1,7 @@
 import express from 'express';
 import { Signup } from './models';
-import { User } from '../database/User';
+import { IUser, User } from '../database/User';
+import { sendEmailVerification } from '../queue/sendToQueue';
 
 const app = express();
 
@@ -14,7 +15,10 @@ app.post('/', (req, res) => {
         password: user.password
     });
 
-    newUser.save().then(() => res.sendStatus(201))
+    newUser.save().then((u: IUser) => { 
+        res.sendStatus(201);
+        sendEmailVerification(u.email);
+    })
     .catch((_) => res.status(500).send(_));
 });
 
