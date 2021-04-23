@@ -1,15 +1,13 @@
-import express from 'express';
-import { connect, connection } from 'mongoose';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-import { login } from './login/login';
-import { signup } from './signup/signup';
+import express from 'express';
+
+import login from './login';
+import signup from './signup';
+import userManager from './userManager';
 
 const PORT = process.env.PORT || 8090;
-
-connect(`mongodb://az-900:1XvtzhgnTnqTk6QBk2m8kAvYC95TaNgQzEM7g6yEblgDLMy591OGLleKvDT3STp5eJ6o1oa0FQE4YtRsZxiQ0g==@az-900.mongo.cosmos.azure.com:10255/userdb?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@az-900@`,
-         { useNewUrlParser: true });
-connection.on('error', (error) => console.error(error));
-connection.once('open', () => console.log('Connected to database'));
 
 const app = express();
 
@@ -18,5 +16,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/login', login);
 app.use('/signup', signup);
+app.use('/user', userManager);
 
 app.listen(PORT, () => console.log(`app started at port ${PORT}`));

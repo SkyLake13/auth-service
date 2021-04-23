@@ -1,12 +1,13 @@
 import express from 'express';
-import { Login } from './models';
-import { IUser, User } from '../database/User';
-import createToken from './jwt';
-import { sendLogin } from '../queue/sendToQueue';
 
-const app = express();
+import { IUser } from './database/User';
+import { User } from './database/Connection';
+import { sendLogin } from './sendToQueue';
+import { createToken } from './auth';
 
-app.post('/', (req, res) => {
+const login = express();
+
+login.post('/', (req, res) => {
     const _user = req.body as Login;
 
     User.findOne({ userName: _user.userName })
@@ -22,4 +23,9 @@ app.post('/', (req, res) => {
     .catch((_) => res.status(500).send(_));
 });
 
-export { app as login };
+export default login;
+
+interface Login {
+    userName: string;
+    password: string;
+}
