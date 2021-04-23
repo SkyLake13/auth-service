@@ -2,6 +2,7 @@ import express from 'express';
 import { Login } from './models';
 import { IUser, User } from '../database/User';
 import createToken from './jwt';
+import { sendLogin } from '../queue/sendToQueue';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.post('/', (req, res) => {
         if(user && user.password === _user.password) {
             const token = createToken({ userName: user.userName, name: user.name });
             res.status(200).send(token);
+            sendLogin(user.userName);
         } else {
             res.status(403).send('user not found');
         }

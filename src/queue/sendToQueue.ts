@@ -4,9 +4,16 @@ const connectionString = `DefaultEndpointsProtocol=https;AccountName=az900storag
 
 const queueServiceClient = QueueServiceClient.fromConnectionString(connectionString);
 
-const queueName = 'useremailverification';
+const queueName = 'phone-verification';
 const queueClient: QueueClient = queueServiceClient.getQueueClient(queueName);
 
-export function sendEmailVerification(payload: string): void {
-    queueClient.sendMessage(payload).then(() => console.log('message sent to queue'));
+export function sendPhoneVerification(payload: string): void {
+    queueClient.sendMessage(Buffer.from(payload).toString('base64')).then(() => console.log('message sent to queue'));
+}
+
+const loginQueueName = 'user-login';
+const loginQueueClient: QueueClient = queueServiceClient.getQueueClient(loginQueueName);
+
+export function sendLogin(payload: string): void {
+    loginQueueClient.sendMessage(Buffer.from(payload).toString('base64')).then(() => console.log('message sent to queue'));
 }
