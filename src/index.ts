@@ -8,7 +8,7 @@ import roleManager from './roleManager';
 import signup from './signup';
 import userManager from './userManager';
 
-const PORT = process.env.PORT || 8080;
+const PORT = 3000;
 
 const app = express();
 

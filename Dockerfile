@@ -1,18 +1,20 @@
-# Stage 1
 FROM node:14-alpine AS build-stage
-WORKDIR /app
-COPY package*.json ./app/
-RUN npm install
+
+WORKDIR /usr/src/app
+COPY package*.json ./
 COPY . .
+RUN npm install
 RUN npm run build
-RUN npm ci --only=production
-RUN ls
 
+## this is stage two , where the app actually runs
 
-# Stage 2
 FROM node:14-alpine
-COPY --from=build-stage /app/dist ./app
-WORKDIR /app
-EXPOSE 8080
-CMD [ "node", "index.js" ]
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install --only=production
+COPY --from=build-stage /usr/src/app/dist ./
 RUN ls
+ENV NODE_ENV production
+USER node
+EXPOSE 3000
+CMD ["node", "index.js"]
