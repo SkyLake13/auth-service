@@ -9,7 +9,7 @@ const dist = path.join(basePath, "dist");
 module.exports.dist = dist;
 
 module.exports = {
-  target: "node",
+  externalsPresets: { node: true },
   context: src,
   entry: ['./index.ts'],
   resolve: {
