@@ -4,5 +4,6 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = merge(common, {
   mode: 'production',
+  devtool: "source-map",
   externals: [nodeExternals({})]
 });
