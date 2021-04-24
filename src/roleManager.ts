@@ -13,7 +13,7 @@ interface RoleRequest {
 const roleManager = express();
 roleManager.use(authorize);
 
-roleManager.get('/', async (req, res) => {
+roleManager.get('/', async (_req, res) => {
     const roles = await Role.find();
     const rolesResponse = roles.map((r) => {
                         return {

@@ -10,7 +10,7 @@ interface IBasicUser {
 const userManager = express();
 userManager.use(authorize)
 
-userManager.get('/', (req, res) => {
+userManager.get('/', (_req, res) => {
     User.find().then((_users: IUser[]) => {
         const users = _users.map((u) => {
             return { 
