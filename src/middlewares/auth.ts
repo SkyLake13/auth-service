@@ -1,24 +1,23 @@
 import { Request, Response } from "express";
-import { sign, verify } from "jsonwebtoken";
+import { VerifyOptions } from "jsonwebtoken";
 
 const privateKey = (process.env as any).JWT_PRIVATE_KEY;
 
-export function createToken(payload: {}): string {
-    const expiresIn = (process.env as any).TOKEN_EXPIRATION;
+export type VerifyFunction = 
+        (token: string, privateKey: string, verifyOptions?: VerifyOptions) => object | string;
 
-    return sign(payload, privateKey, { expiresIn: Number(expiresIn) });
-}
+export function authorize(verifyFunction: VerifyFunction) {
 
-export function authorize(req: Request, res: Response, next: any) {
-    const authheader = req.headers.authorization;
-    if(authheader && (authheader.indexOf('Bearer ') > -1)) {
-        const token = req.headers['authorization']?.split(' ')[1];
-
-        if(token && verify(token, privateKey)) {
-            return next();
-        }
-    }
-
+    return function (req: Request, res: Response, next: any) {
+        const authheader = req.headers.authorization;
+        if(authheader && (authheader.indexOf('Bearer ') > -1)) {
+            const token = req.headers['authorization']?.split(' ')[1];
     
-    return res.status(403).send('Unauthorized');
+            if(token && verifyFunction(token, privateKey)) {
+                return next();
+            }
+        }
+
+        return res.status(403).send('Unauthorized');
+    }
 }
