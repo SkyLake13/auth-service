@@ -8,7 +8,7 @@ import roleManager from './routes/roleManager';
 import signup from './routes/signup';
 import userManager from './routes/userManager';
 
-const PORT = 3001;
+const PORT = 3000;
 
 const app = express();
 
