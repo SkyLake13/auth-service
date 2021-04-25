@@ -1,6 +1,6 @@
 import express from 'express';
-import { authorize } from './auth';
-import { Role } from './database/Connection';
+import { authorize } from '../middlewares/auth';
+import { Role } from '../database/Connection';
 
 interface RoleResponse {
     id: string; name: string; users: string[];

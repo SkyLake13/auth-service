@@ -1,7 +1,7 @@
 import express from 'express';
-import { IUser } from './database/User';
-import { User } from './database/Connection';
-import { sendPhoneVerification } from './sendToQueue';
+import { IUser } from '../database/User';
+import { User } from '../database/Connection';
+import { sendPhoneVerification } from '../sendToQueue';
 
 const signup = express();
 

@@ -1,9 +1,9 @@
 import express from 'express';
 
-import { IUser } from './database/User';
-import { User } from './database/Connection';
-import { sendLogin } from './sendToQueue';
-import { createToken } from './auth';
+import { IUser } from '../database/User';
+import { User } from '../database/Connection';
+import { sendLogin } from '../sendToQueue';
+import { createToken } from '../middlewares/auth';
 
 const login = express();
 

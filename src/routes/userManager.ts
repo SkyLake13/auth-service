@@ -1,7 +1,7 @@
 import express from 'express';
-import { authorize } from './auth';
-import { User } from './database/Connection';
-import { IUser } from './database/User';
+import { authorize } from '../middlewares/auth';
+import { User } from '../database/Connection';
+import { IUser } from '../database/User';
 
 interface IBasicUser {
     id: string; name: string; email: string, userName: string, phone: string, verified: boolean

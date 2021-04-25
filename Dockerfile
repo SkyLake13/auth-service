@@ -13,8 +13,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install --only=production
 COPY --from=build-stage /usr/src/app/dist ./
-RUN ls
-ENV NODE_ENV production
 USER node
 EXPOSE 3000
 CMD ["node", "index.js"]
